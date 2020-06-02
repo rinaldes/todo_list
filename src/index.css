@@ -5,3 +5,11 @@
 .item .icon{
   float: right;
 }
+.done{
+  color: green;
+  text-decoration: line-through;
+}
+.hilang{
+  display: none;
+  visibility: hidden;
+}

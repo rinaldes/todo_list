@@ -6,13 +6,20 @@ import { Card, Feed, Input, Form, Icon, List } from 'semantic-ui-react'
 
 class Todolist extends React.Component {
     state = {
-        tugas: ["Tugas 1", "Tugas 2", "Tugas 3"]
+        tugas: [["Tugas 1", false], ["Tugas 2", false], ["Tugas 3", false]]
     };
 
     deleteTask = (index) => {
-        const newArr = [...this.state.tugas];
-        newArr.splice(index, 1);
-        this.setState({ tugas: newArr });
+        const newData = [...this.state.tugas];
+        newData.splice(index, 1);
+        this.setState({ tugas: newData });
+    }
+
+    doneTask = (index) => {
+        const newData = [...this.state.tugas];
+        const complete = [newData[index][0], true];
+        newData.splice(index, 1);
+        this.setState({ tugas: [...newData, complete] });
     }
 
     newTask = task => {
@@ -27,7 +34,7 @@ class Todolist extends React.Component {
                 </Card.Content>
                 <Card.Content>
                     <Feed>
-                        <TaskList tugas={this.state.tugas} onDelete={this.deleteTask} />
+                        <TaskList tugas={this.state.tugas} onDelete={this.deleteTask} onDone={this.doneTask} />
                     </Feed>
                 </Card.Content>
                 <Card.Content>
@@ -73,13 +80,13 @@ function Header(props) {
 
 function TaskList(props) {
     const daftarTugas = props.tugas.map((todo, index) => {
-        return <Todo content={todo} key={index} id={index} onDelete={props.onDelete} />
+        return <Todo content={todo} key={index} id={index} selesai={todo[1]} onDelete={props.onDelete} onDone={props.onDone} />
     });
 
     return (
         <Feed.Event>
             <Feed.Content>
-                <label>{daftarTugas}</label>
+                {daftarTugas}
             </Feed.Content>
         </Feed.Event>
     );
@@ -89,10 +96,17 @@ function Todo(props) {
     return (
         <List>
             <List.Item>
-                {props.content}
+                <label className={props.selesai ? "done" : null}>{props.content}</label>
                 <Icon
+                    color='red'
                     name="trash alternate outline"
                     onClick={() => { props.onDelete(props.id) }}
+                />
+                <Icon
+                    color='blue'
+                    className={props.selesai ? "hilang" : null}
+                    name="check"
+                    onClick={() => { props.onDone(props.id) }}
                 />
             </List.Item>
         </List>
