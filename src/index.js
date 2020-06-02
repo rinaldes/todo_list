@@ -74,7 +74,7 @@ class AddTask extends React.Component {
 
 function Header(props) {
     return (
-        <Card.Header>Sisa {props.jumlahTugas} Tugas</Card.Header>
+        <Card.Header>Kamu memiliki {props.jumlahTugas} Tugas</Card.Header>
     )
 }
 
