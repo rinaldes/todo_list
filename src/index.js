@@ -18,12 +18,12 @@ class Todolist extends React.Component {
     doneTask = (index) => {
         const newData = [...this.state.tugas];
         const complete = [newData[index][0], true];
-        newData.splice(index, 1);
-        this.setState({ tugas: [...newData, complete] });
+        newData[index] = complete
+        this.setState({ tugas: [...newData] });
     }
 
     newTask = task => {
-        this.setState({ tugas: [...this.state.tugas, task] });
+        this.setState({ tugas: [...this.state.tugas, [task, false]] });
     }
 
     render() {
@@ -59,7 +59,7 @@ class AddTask extends React.Component {
         return (
             <Form onSubmit={this.submitTask}>
                 <Input
-                    icon={<Icon name='plus' inverted circular link />}
+                    icon="plus"
                     type="text"
                     className="input"
                     placeholder="Tambahkan Tugas"
